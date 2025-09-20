@@ -13,9 +13,6 @@ import lombok.experimental.UtilityClass;
 
 /**
  * 图片验证码工具类
- *
- * @author xiongxiaoyang
- * @date 2022/5/17
  */
 @UtilityClass
 public class ImgVerifyCodeUtils {
@@ -51,13 +48,13 @@ public class ImgVerifyCodeUtils {
     public String genVerifyCodeImg(String verifyCode) throws IOException {
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        // 产生Image对象的Graphics对象,改对象可以在图像上进行各种绘制操作
+        // 产生Image对象的Graphics对象,该对象可以在图像上进行各种绘制操作
         Graphics g = image.getGraphics();
         //图片大小
         g.fillRect(0, 0, width, height);
         //字体大小
         //字体颜色
-        g.setColor(new Color(204, 204, 204));
+        g.setColor(new Color(172, 133, 133));
         // 绘制干扰线
         // 干扰线数量
         int lineSize = 40;
@@ -66,6 +63,7 @@ public class ImgVerifyCodeUtils {
         }
         // 绘制随机字符
         drawString(g, verifyCode);
+        //释放图形使用的上下文资源
         g.dispose();
         //将图片转换成Base64字符串
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -81,6 +79,7 @@ public class ImgVerifyCodeUtils {
             g.setFont(getFont());
             g.setColor(new Color(random.nextInt(101), random.nextInt(111), random
                 .nextInt(121)));
+            //字符在图片上有1-2个偏移度数
             g.translate(random.nextInt(3), random.nextInt(3));
             g.drawString(String.valueOf(verifyCode.charAt(i - 1)), 13 * i, 23);
         }

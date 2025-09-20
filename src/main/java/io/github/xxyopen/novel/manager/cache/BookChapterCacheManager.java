@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 小说章节 缓存管理类
- *
- * @author xiongxiaoyang
- * @date 2022/5/12
  */
 @Component
 @RequiredArgsConstructor

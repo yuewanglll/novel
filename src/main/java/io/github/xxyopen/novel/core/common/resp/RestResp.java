@@ -8,9 +8,6 @@ import java.util.Objects;
 
 /**
  * Http Rest 响应工具及数据格式封装
- *
- * @author xiongxiaoyang
- * @date 2022/5/11
  */
 @Getter
 public class RestResp<T> {
@@ -44,7 +41,7 @@ public class RestResp<T> {
     }
 
     private RestResp(T data) {
-        this();
+        this(); //调用当前对象的空参构造
         this.data = data;
     }
 
@@ -64,6 +61,7 @@ public class RestResp<T> {
 
     /**
      * 业务处理失败
+     * Void 类型安全，编译时防止设置数据
      */
     public static RestResp<Void> fail(ErrorCodeEnum errorCode) {
         return new RestResp<>(errorCode);

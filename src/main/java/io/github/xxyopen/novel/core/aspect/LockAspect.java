@@ -24,9 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 分布式锁 切面
- *
- * @author xiongxiaoyang
- * @date 2022/6/20
  */
 @Aspect
 @Component
@@ -42,7 +39,9 @@ public class LockAspect {
     @Around(value = "@annotation(io.github.xxyopen.novel.core.annotation.Lock)")
     @SneakyThrows
     public Object doAround(ProceedingJoinPoint joinPoint) {
+        //获取连接点的签名并转换为方法签名
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        //获取被拦截方法的Method对象
         Method targetMethod = methodSignature.getMethod();
         Lock lock = targetMethod.getAnnotation(Lock.class);
         String lockKey = KEY_PREFIX + buildLockKey(lock.prefix(), targetMethod,

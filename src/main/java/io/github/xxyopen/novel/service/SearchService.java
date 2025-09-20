@@ -7,9 +7,6 @@ import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 
 /**
  * 搜索 服务类
- *
- * @author xiongxiaoyang
- * @date 2022/5/23
  */
 public interface SearchService {
 

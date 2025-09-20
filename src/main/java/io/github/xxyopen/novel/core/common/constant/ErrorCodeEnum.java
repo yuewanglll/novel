@@ -11,9 +11,6 @@ import lombok.Getter;
  * 步长间距预留 100。
  * <p>
  * 错误码分为一级宏观错误码、二级宏观错误码、三级宏观错误码。 在无法更加具体确定的错误场景中，可以直接使用一级宏观错误码。
- *
- * @author xiongxiaoyang
- * @date 2022/5/11
  */
 @Getter
 @AllArgsConstructor
@@ -75,6 +72,11 @@ public enum ErrorCodeEnum {
     USER_LOGIN_EXPIRED("A0230", "用户登录已过期"),
 
     /**
+     * 用户未登录
+     */
+    USER_NOT_LOGIN("A0240","用户未登录"),
+
+    /**
      * 访问未授权
      */
     USER_UN_AUTH("A0301", "访问未授权"),
@@ -114,6 +116,11 @@ public enum ErrorCodeEnum {
      */
     USER_UPLOAD_FILE_ERROR("A0700", "用户上传文件异常"),
 
+    /**
+     * 文件名为空
+     */
+
+    USER_UPLOAD_FILE_EMPTY("A0702", "文件名为空"),
     /**
      * 用户上传文件类型不匹配
      */

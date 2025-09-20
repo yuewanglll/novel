@@ -13,9 +13,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 小说排行榜 缓存管理类
- *
- * @author xiongxiaoyang
- * @date 2022/5/12
  */
 @Component
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listNewestRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
-            .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
+            //.gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
             .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName());
         return listRankBooks(bookInfoQueryWrapper);
     }
@@ -55,7 +52,7 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listUpdateRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
-            .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
+            //.gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
             .orderByDesc(DatabaseConsts.CommonColumnEnum.UPDATE_TIME.getName());
         return listRankBooks(bookInfoQueryWrapper);
     }

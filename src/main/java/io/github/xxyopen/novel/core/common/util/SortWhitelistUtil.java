@@ -1,6 +1,8 @@
 package io.github.xxyopen.novel.core.common.util;
 
 import lombok.experimental.UtilityClass;
+import org.apache.shardingsphere.sql.parser.autogen.OpenGaussStatementParser;
+import org.aspectj.weaver.ast.Var;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,9 +17,6 @@ import java.util.Set;
  * 该工具类使用 Lombok 的 @UtilityClass 注解，确保：
  * - 无法被实例化
  * - 所有方法为静态方法
- *
- * @author xiongxiaoyang
- * @date 2025/7/17
  */
 @UtilityClass
 public class SortWhitelistUtil {
@@ -28,6 +27,8 @@ public class SortWhitelistUtil {
      */
     private final Set<String> allowedColumns = new HashSet<>(
         Arrays.asList( "last_chapter_update_time", "word_count", "visit_count"));
+
+
 
     /**
      * 允许的排序方式白名单集合

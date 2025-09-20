@@ -1,7 +1,9 @@
 package io.github.xxyopen.novel.core.listener;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
+import co.elastic.clients.util.ObjectBuilder;
 import io.github.xxyopen.novel.core.constant.AmqpConsts;
 import io.github.xxyopen.novel.core.constant.EsConsts;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
@@ -14,11 +16,10 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
+
 /**
  * Rabbit 队列监听器
- *
- * @author xiongxiaoyang
- * @date 2022/5/25
  */
 @Component
 @ConditionalOnProperty(prefix = "spring", name = {"elasticsearch.enabled",
@@ -43,6 +44,7 @@ public class RabbitQueueListener {
             .id(bookInfo.getId().toString())
             .document(EsBookDto.build(bookInfo))
         );
+
         log.info("Indexed with version " + response.version());
     }
 

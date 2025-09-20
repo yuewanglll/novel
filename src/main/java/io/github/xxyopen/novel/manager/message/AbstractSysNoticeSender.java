@@ -7,9 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * 抽象的系统通知发送者
- *
- * @author xiongxiaoyang
- * @date 2023/3/24
  */
 @Slf4j
 public abstract class AbstractSysNoticeSender extends AbstractMessageSender {

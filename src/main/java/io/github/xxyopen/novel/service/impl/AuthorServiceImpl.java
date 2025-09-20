@@ -50,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
         authorInfo.setUpdateTime(LocalDateTime.now());
         authorInfoMapper.insert(authorInfo);
         // 清除作家缓存
-        authorInfoCacheManager.evictAuthorCache();
+        authorInfoCacheManager.evictAuthorCache(dto.getUserId());
         return RestResp.ok();
     }
 

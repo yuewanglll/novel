@@ -1,11 +1,9 @@
 package io.github.xxyopen.novel.core.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +12,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * JWT 工具类
- *
- * @author xiongxiaoyang
- * @date 2022/5/17
  */
 @ConditionalOnProperty("novel.jwt.secret")
 @Component
@@ -28,6 +23,9 @@ public class JwtUtils {
      */
     @Value("${novel.jwt.secret}")
     private String secret;
+
+    @Value("${novel.jwt.expiration:86400000}")
+    private long expiration;
 
     /**
      * 定义系统标识头常量
@@ -42,11 +40,14 @@ public class JwtUtils {
      * @return JWT
      */
     public String generateToken(Long uid, String systemKey) {
+        //计算token过期时间：当前时间+过期毫秒数
+        Date expirationData = new Date(System.currentTimeMillis()+expiration);
         return Jwts.builder()
-            .setHeaderParam(HEADER_SYSTEM_KEY, systemKey)
-            .setSubject(uid.toString())
-            .signWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
-            .compact();
+                .setHeaderParam(HEADER_SYSTEM_KEY, systemKey)
+                .setSubject(uid.toString())
+                .setExpiration(expirationData)
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
+                .compact();
     }
 
     /**
@@ -60,9 +61,9 @@ public class JwtUtils {
         Jws<Claims> claimsJws;
         try {
             claimsJws = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
-                .build()
-                .parseClaimsJws(token);
+                    .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
+                    .build()
+                    .parseClaimsJws(token);
             // OK, we can trust this JWT
             // 判断该 JWT 是否属于指定系统
             if (Objects.equals(claimsJws.getHeader().get(HEADER_SYSTEM_KEY), systemKey)) {

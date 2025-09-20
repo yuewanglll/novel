@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 前台门户-新闻模块 API 控制器
- *
- * @author xiongxiaoyang
- * @date 2022/5/12
  */
 @Tag(name = "NewsController", description = "前台门户-新闻模块")
 @RestController

@@ -15,18 +15,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 前台门户-小说模块 API 控制器
- *
- * @author xiongxiaoyang
- * @date 2022/5/14
  */
 @Tag(name = "BookController", description = "前台门户-小说模块")
 @RestController
@@ -61,8 +56,8 @@ public class BookController {
      */
     @Operation(summary = "增加小说点击量接口")
     @PostMapping("visit")
-    public RestResp<Void> addVisitCount(@Parameter(description = "小说ID") Long bookId) {
-        return bookService.addVisitCount(bookId);
+    public RestResp<Void> addVisitCount(@Parameter(description = "小说ID") @RequestBody Map<String,String> bookVisitReq) {
+        return bookService.addVisitCount(Long.valueOf(bookVisitReq.get("bookId")));
     }
 
     /**

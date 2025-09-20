@@ -13,9 +13,6 @@ import javax.sql.DataSource;
 
 /**
  * ShardingSphere 配置类，控制是否开启 ShardingSphere
- *
- * @author xiongxiaoyang
- * @date 2023/12/21
  */
 @Configuration
 @ConditionalOnProperty(

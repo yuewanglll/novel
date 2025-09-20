@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 前台门户-会员模块 API 控制器
  *
- * @author xiongxiaoyang
- * @date 2022/5/17
  */
 @Tag(name = "UserController", description = "前台门户-会员模块")
 @SecurityRequirement(name = SystemConfigConsts.HTTP_AUTH_HEADER_NAME)
@@ -135,7 +133,7 @@ public class UserController {
     }
 
     /**
-     * 分页查询评论
+     * 分页查询我的评论
      */
     @Operation(summary = "查询会员评论列表接口")
     @GetMapping("comments")

@@ -29,6 +29,7 @@ public class UserRegisterReqDto {
     @Pattern(regexp="^\\d{4}$",message="验证码格式不正确！")
     private String velCode;
 
+
     /**
      * 请求会话标识，用来标识图形验证码属于哪个会话
      * */

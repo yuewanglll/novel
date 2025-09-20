@@ -8,6 +8,7 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
 import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.ResourceService;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import javax.imageio.ImageIO;
+
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +44,9 @@ public class ResourceServiceImpl implements ResourceService {
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         String sessionId = IdWorker.get32UUID();
         return RestResp.ok(ImgVerifyCodeRespDto.builder()
-            .sessionId(sessionId)
-            .img(verifyCodeManager.genImgVerifyCode(sessionId))
-            .build());
+                .sessionId(sessionId)
+                .img(verifyCodeManager.genImgVerifyCode(sessionId))
+                .build());
     }
 
     @SneakyThrows
@@ -52,12 +54,15 @@ public class ResourceServiceImpl implements ResourceService {
     public RestResp<String> uploadImage(MultipartFile file) {
         LocalDateTime now = LocalDateTime.now();
         String savePath =
-            SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY
-                + now.format(DateTimeFormatter.ofPattern("yyyy")) + File.separator
-                + now.format(DateTimeFormatter.ofPattern("MM")) + File.separator
-                + now.format(DateTimeFormatter.ofPattern("dd"));
+                SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY
+                        + now.format(DateTimeFormatter.ofPattern("yyyy")) + File.separator
+                        + now.format(DateTimeFormatter.ofPattern("MM")) + File.separator
+                        + now.format(DateTimeFormatter.ofPattern("dd"));
+        //获取原始文件名并检查非空
         String oriName = file.getOriginalFilename();
-        assert oriName != null;
+        if (oriName == null) {
+            throw new BusinessException(ErrorCodeEnum.USER_UPLOAD_FILE_EMPTY);
+        }
         String saveFileName = IdWorker.get32UUID() + oriName.substring(oriName.lastIndexOf("."));
         File saveFile = new File(fileUploadPath + savePath, saveFileName);
         if (!saveFile.getParentFile().exists()) {
@@ -66,6 +71,7 @@ public class ResourceServiceImpl implements ResourceService {
                 throw new BusinessException(ErrorCodeEnum.USER_UPLOAD_FILE_ERROR);
             }
         }
+        //保存文件
         file.transferTo(saveFile);
         if (Objects.isNull(ImageIO.read(saveFile))) {
             // 上传的文件不是图片

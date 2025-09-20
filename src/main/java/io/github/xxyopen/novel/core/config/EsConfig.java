@@ -20,9 +20,6 @@ import java.security.cert.X509Certificate;
 
 /**
  * Elasticsearch 相关配置
- *
- * @author xiongxiaoyang
- * @date 2022/5/23
  */
 @Configuration
 @Slf4j
@@ -31,11 +28,14 @@ public class EsConfig {
     /**
      * fix `sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
      * unable to find valid certification path to requested target`
+     * 这个配置类的核心作用是：在明确配置 “不验证 SSL 证书”（verification-mode=none）的场景下，
+     * 通过定制 Elasticsearch 的 RestClient，
+     * 使其跳过 SSL 证书验证和主机名验证，从而解决因证书问题导致的连接失败。通常用于开发环境或内部可信环境
      */
     @ConditionalOnProperty(value = "spring.elasticsearch.ssl.verification-mode", havingValue = "none")
     @Bean
     RestClient elasticsearchRestClient(RestClientBuilder restClientBuilder,
-        ObjectProvider<RestClientBuilderCustomizer> builderCustomizers) {
+                                       ObjectProvider<RestClientBuilderCustomizer> builderCustomizers) {
         restClientBuilder.setHttpClientConfigCallback((HttpAsyncClientBuilder clientBuilder) -> {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
                 @Override

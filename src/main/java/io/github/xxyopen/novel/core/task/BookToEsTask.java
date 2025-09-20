@@ -19,13 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * 小说数据同步到 elasticsearch 任务
- *
- * @author xiongxiaoyang
- * @date 2022/5/23
  */
 @ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enabled", havingValue = "true")
 @Component
@@ -73,7 +71,7 @@ public class BookToEsTask {
                 }
 
                 BulkResponse result = elasticsearchClient.bulk(br.build());
-
+                log.info("定时任务执行成功，执行时间:{}", LocalDateTime.now());
                 // Log errors, if any
                 if (result.errors()) {
                     log.error("Bulk had errors");

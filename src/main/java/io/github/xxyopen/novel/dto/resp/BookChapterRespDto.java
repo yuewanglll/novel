@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 
 /**
  * 小说章节 响应DTO
- *
- * @author xiongxiaoyang
- * @date 2022/5/15
  */
 @Data
 @Builder

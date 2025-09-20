@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * 排序字段和排序方式的安全校验切面类
@@ -27,9 +28,6 @@ import java.util.Map;
  * - PageReqDto 类型对象
  * - Map 类型参数
  * - 任意带有 sort/order 字段的 POJO 对象
- *
- * @author xiongxiaoyang
- * @date 2025/7/17
  */
 @Aspect
 @Component
@@ -46,10 +44,8 @@ public class SortOrderValidationAspect {
         Object[] args = joinPoint.getArgs();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
         // 获取方法参数上的所有注解
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-
         // 遍历所有参数，检查是否有 @ValidateSortOrder 注解
         for (int i = 0; i < parameterAnnotations.length; i++) {
             boolean hasAnnotation = Arrays.stream(parameterAnnotations[i])
@@ -60,7 +56,6 @@ public class SortOrderValidationAspect {
                 handleAnnotatedParameter(args[i]);
             }
         }
-
         // 继续执行原方法
         return joinPoint.proceed(args);
     }

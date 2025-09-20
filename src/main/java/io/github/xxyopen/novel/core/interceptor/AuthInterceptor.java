@@ -19,10 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
- * 认证授权 拦截器：为了注入其它的 Spring beans，需要通过 @Component 注解将该拦截器注册到 Spring 上下文
- *
- * @author xiongxiaoyang
- * @date 2022/5/18
+ * 认证授权 拦截器：为了注入其它的 Spring beans，需要通过 @Component 注解将该拦截器注册到 Spring 容器
  */
 @Component
 @RequiredArgsConstructor

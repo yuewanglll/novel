@@ -10,9 +10,6 @@ import java.time.LocalDateTime;
  * <p>
  * 小说章节
  * </p>
- *
- * @author xiongxiaoyang
- * @date 2022/05/11
  */
 @TableName("book_chapter")
 public class BookChapter implements Serializable {

@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
  * <p>
  * 稿费收入统计
  * </p>
- *
- * @author xiongxiaoyang
- * @date 2022/05/11
  */
 @TableName("author_income")
 public class AuthorIncome implements Serializable {

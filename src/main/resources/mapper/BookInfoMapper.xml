@@ -26,7 +26,7 @@
             and word_count >= #{condition.wordCountMin}
         </if>
         <if test="condition.wordCountMax != null">
-            and word_count <![CDATA[ < ]]> #{condition.wordCountMax}
+            and word_count &lt; #{condition.wordCountMax}
         </if>
         <if test="condition.updateTimeMin != null">
             and last_chapter_update_time >= #{condition.updateTimeMin}

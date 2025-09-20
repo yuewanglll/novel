@@ -18,9 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 前台门户-资源(图片/视频/文档)模块 API 控制器
- *
- * @author xiongxiaoyang
- * @date 2022/5/17
  */
 @Tag(name = "ResourceController", description = "前台门户-资源模块")
 @RestController
@@ -44,7 +41,7 @@ public class ResourceController {
      */
     @Operation(summary = "图片上传接口")
     @PostMapping("/image")
-    RestResp<String> uploadImage(
+    public RestResp<String> uploadImage(
         @Parameter(description = "上传文件") @RequestParam("file") MultipartFile file) {
         return resourceService.uploadImage(file);
     }

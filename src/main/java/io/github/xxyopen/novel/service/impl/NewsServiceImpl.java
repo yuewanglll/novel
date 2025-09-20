@@ -16,9 +16,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * 新闻模块 服务实现类
- *
- * @author xiongxiaoyang
- * @date 2022/5/14
  */
 @Service
 @RequiredArgsConstructor
@@ -37,7 +34,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public RestResp<NewsInfoRespDto> getNews(Long id) {
+        // 查询新闻信息
         NewsInfo newsInfo = newsInfoMapper.selectById(id);
+        // 查询新闻内容
         QueryWrapper<NewsContent> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.NewsContentTable.COLUMN_NEWS_ID, id)
             .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());

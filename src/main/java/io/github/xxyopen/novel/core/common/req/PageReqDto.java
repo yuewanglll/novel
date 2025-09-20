@@ -5,9 +5,6 @@ import lombok.Data;
 
 /**
  * 分页请求数据格式封装，所有分页请求的Dto类都应继承该类
- *
- * @author xiongxiaoyang
- * @date 2022/5/11
  */
 @Data
 public class PageReqDto {
@@ -27,7 +24,7 @@ public class PageReqDto {
     /**
      * 是否查询所有，默认不查所有 为 true 时，pageNum 和 pageSize 无效
      */
-    @Parameter(hidden = true)
+    @Parameter(hidden = true)   
     private boolean fetchAll = false;
 
     /**

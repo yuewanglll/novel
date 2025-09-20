@@ -7,6 +7,7 @@ import io.github.xxyopen.novel.core.interceptor.FileInterceptor;
 import io.github.xxyopen.novel.core.interceptor.FlowLimitInterceptor;
 import io.github.xxyopen.novel.core.interceptor.TokenParseInterceptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,9 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Spring Web Mvc 相关配置不要加 @EnableWebMvc 注解，否则会导致 jackson 的全局配置失效。因为 @EnableWebMvc 注解会导致
  * WebMvcAutoConfiguration 自动配置失效
- *
- * @author xiongxiaoyang
- * @date 2022/5/18
  */
 @Configuration
 @RequiredArgsConstructor
@@ -29,6 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final FileInterceptor fileInterceptor;
 
     private final TokenParseInterceptor tokenParseInterceptor;
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

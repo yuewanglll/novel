@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 平台后台管理系统 认证授权策略
- *
- * @author xiongxiaoyang
- * @date 2022/5/18
  */
 @Component
 @RequiredArgsConstructor

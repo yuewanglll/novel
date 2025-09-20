@@ -8,13 +8,14 @@ import static org.zalando.logbook.core.Conditions.*;
 
 /**
  * Logbook 配置
- *
- * @author xiongxiaoyang
- * @date 2024/9/13
  */
 @Configuration
 public class LogbookConfig {
 
+    /**
+     *
+     * 精简HTTP日志记录，过滤掉不需要记录的请求
+     */
     @Bean
     public Logbook logbook() {
         return Logbook.builder()
