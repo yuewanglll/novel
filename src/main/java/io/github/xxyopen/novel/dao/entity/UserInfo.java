@@ -10,9 +10,6 @@ import java.time.LocalDateTime;
  * <p>
  * 用户信息
  * </p>
- *
- * @author xiongxiaoyang
- * @date 2022/05/11
  */
 @TableName("user_info")
 public class UserInfo implements Serializable {
@@ -68,10 +65,23 @@ public class UserInfo implements Serializable {
     private LocalDateTime createTime;
 
     /**
+     * 用户角色 0-普通用户 1-管理员
+     */
+    private Integer role;
+
+    /**
      * 更新时间
      */
     private LocalDateTime updateTime;
 
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;

@@ -7,9 +7,10 @@ import io.github.xxyopen.novel.core.interceptor.FileInterceptor;
 import io.github.xxyopen.novel.core.interceptor.FlowLimitInterceptor;
 import io.github.xxyopen.novel.core.interceptor.TokenParseInterceptor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -28,6 +29,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final TokenParseInterceptor tokenParseInterceptor;
 
+    @Value("${novel.file.upload.path}")
+    private String uploadPath;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -62,5 +65,21 @@ public class WebConfig implements WebMvcConfigurer {
             .addPathPatterns(ApiRouterConsts.API_FRONT_BOOK_URL_PREFIX + "/content/*")
             .order(3);
 
+        //音频资源
+        registry.addInterceptor(fileInterceptor)
+                .addPathPatterns(SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY + "**")
+                .addPathPatterns("/tts/**")
+                .order(1);
+
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 已有的图片映射
+        registry.addResourceHandler(SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY + "**")
+                .addResourceLocations("file:" + uploadPath + "/");
+        // 新增TTS音频映射
+        registry.addResourceHandler("/tts/**")
+                .addResourceLocations("file:" + uploadPath + "/tts/");
     }
 }

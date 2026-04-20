@@ -30,7 +30,7 @@ public class UserInfoCacheManager {
         }
         return UserInfoDto.builder()
             .id(userInfo.getId())
-            .status(userInfo.getStatus()).build();
+            .status(userInfo.getStatus()).role(userInfo.getRole()).build();
     }
 
 

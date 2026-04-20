@@ -6,14 +6,10 @@ import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
-import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
-import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
-import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
-import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
-import io.github.xxyopen.novel.dto.resp.UserCommentRespDto;
-import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
-import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
-import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
+import io.github.xxyopen.novel.dao.entity.UserInfo;
+import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
+import io.github.xxyopen.novel.dto.req.*;
+import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.service.BookService;
 import io.github.xxyopen.novel.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,11 +20,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * 前台门户-会员模块 API 控制器
+ * 前台门户-用户模块 API 控制器
  *
  */
-@Tag(name = "UserController", description = "前台门户-会员模块")
+@Tag(name = "UserController", description = "前台门户-用户模块")
 @SecurityRequirement(name = SystemConfigConsts.HTTP_AUTH_HEADER_NAME)
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_USER_URL_PREFIX)
@@ -39,6 +37,7 @@ public class UserController {
 
     private final BookService bookService;
 
+    private final UserInfoMapper userInfoMapper;
     /**
      * 用户注册接口
      */
@@ -65,6 +64,15 @@ public class UserController {
     public RestResp<UserInfoRespDto> getUserInfo() {
         return userService.getUserInfo(UserHolder.getUserId());
     }
+
+    @Operation(summary = "查询当前用户角色接口")
+    @GetMapping("role")
+    public RestResp<Integer> getUserRole() {
+        Long userId = UserHolder.getUserId();
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        return RestResp.ok(userInfo != null ? userInfo.getRole() : 0);
+    }
+
 
     /**
      * 用户信息修改接口
@@ -132,13 +140,70 @@ public class UserController {
         return userService.getBookshelfStatus(UserHolder.getUserId(), bookId);
     }
 
+
     /**
      * 分页查询我的评论
      */
-    @Operation(summary = "查询会员评论列表接口")
+    @Operation(summary = "查询本人评论接口")
     @GetMapping("comments")
     public RestResp<PageRespDto<UserCommentRespDto>> listComments(PageReqDto pageReqDto) {
         return bookService.listComments(UserHolder.getUserId(), pageReqDto);
+    }
+
+    @Operation(summary = "加入书架接口")
+    @PostMapping("bookshelf")
+    public RestResp<Void> addBookshelf(
+            @RequestBody UserBookshelfReqDto dto) {
+        return userService.addBookshelf(UserHolder.getUserId(), dto.getBookId());
+    }
+
+    @Operation(summary = "移出书架接口")
+    @DeleteMapping("bookshelf")
+    public RestResp<Void> removeBookshelf(
+            @RequestBody UserBookshelfReqDto dto) {
+        return userService.removeBookshelf(UserHolder.getUserId(), dto.getBookId());
+    }
+
+    @Operation(summary = "查询书架列表接口")
+    @GetMapping("bookshelf")
+    public RestResp<List<UserBookshelfRespDto>> listBookshelf() {
+        return userService.listBookshelf(UserHolder.getUserId());
+    }
+
+    @Operation(summary = "更新阅读进度接口")
+    @PutMapping("bookshelf/reading_progress")
+    public RestResp<Void> updateReadingProgress(
+            @Parameter(description = "小说ID") @RequestParam String bookId,
+            @Parameter(description = "章节内容ID") @RequestParam Long contentId) {
+        return userService.updateReadingProgress(
+                UserHolder.getUserId(), bookId, contentId);
+    }
+
+    @Operation(summary = "关注作者接口")
+    @PostMapping("follow")
+    public RestResp<Void> followAuthor(
+            @RequestBody UserFollowReqDto dto) {
+        return userService.followAuthor(UserHolder.getUserId(), dto.getAuthorId());
+    }
+
+    @Operation(summary = "取消关注接口")
+    @DeleteMapping("follow")
+    public RestResp<Void> unfollowAuthor(
+            @RequestBody UserFollowReqDto dto) {
+        return userService.unfollowAuthor(UserHolder.getUserId(), dto.getAuthorId());
+    }
+
+    @Operation(summary = "查询关注状态接口")
+    @GetMapping("follow_status")
+    public RestResp<Integer> getFollowStatus(
+            @Parameter(description = "作者ID") @RequestParam Long authorId) {
+        return userService.getFollowStatus(UserHolder.getUserId(), authorId);
+    }
+
+    @Operation(summary = "查询关注列表接口")
+    @GetMapping("follows")
+    public RestResp<List<UserFollowRespDto>> listFollows() {
+        return userService.listFollows(UserHolder.getUserId());
     }
 
 }

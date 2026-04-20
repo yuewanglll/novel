@@ -251,14 +251,23 @@ public class BookServiceImpl implements BookService {
             List<UserInfo> userInfos = userDaoManager.listUsers(userIds);
             Map<Long, UserInfo> userInfoMap = userInfos.stream()
                     .collect(Collectors.toMap(UserInfo::getId, Function.identity()));
+
             List<BookCommentRespDto.CommentInfo> commentInfos = bookComments.stream()
-                    .map(v -> BookCommentRespDto.CommentInfo.builder()
-                            .id(v.getId())
-                            .commentUserId(v.getUserId())
-                            .commentUser(userInfoMap.get(v.getUserId()).getUsername())
-                            .commentUserPhoto(userInfoMap.get(v.getUserId()).getUserPhoto())
-                            .commentContent(v.getCommentContent())
-                            .commentTime(v.getCreateTime()).build()).toList();
+                    .map(v -> {
+                        UserInfo userInfo = userInfoMap.get(v.getUserId());
+                        String username = userInfo != null ? userInfo.getUsername() : "未知用户";
+                        String userPhoto = userInfo != null ? userInfo.getUserPhoto() : null;
+
+                        return BookCommentRespDto.CommentInfo.builder()
+                                .id(v.getId())
+                                .commentUserId(v.getUserId())
+                                .commentUser(username)
+                                .commentUserPhoto(userPhoto)
+                                .commentContent(v.getCommentContent())
+                                .commentTime(v.getCreateTime())
+                                .build();
+                    })
+                    .toList();
             bookCommentRespDto.setComments(commentInfos);
         } else {
             bookCommentRespDto.setComments(Collections.emptyList());

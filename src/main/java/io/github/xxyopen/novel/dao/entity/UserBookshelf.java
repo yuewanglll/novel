@@ -7,12 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
  * 用户书架
- * </p>
- *
- * @author xiongxiaoyang
- * @date 2022/05/11
  */
 @TableName("user_bookshelf")
 public class UserBookshelf implements Serializable {

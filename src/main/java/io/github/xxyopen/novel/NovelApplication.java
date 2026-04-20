@@ -61,5 +61,4 @@ public class NovelApplication {
         http.httpBasic();
         return http.build();
     }
-
 }

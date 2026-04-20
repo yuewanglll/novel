@@ -7,12 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
  * 作家邀请码
- * </p>
- *
- * @author xiongxiaoyang
- * @date 2022/05/11
  */
 @TableName("author_code")
 public class AuthorCode implements Serializable {

@@ -4,9 +4,9 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
-import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
-import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
-import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
+import io.github.xxyopen.novel.dto.resp.*;
+
+import java.util.List;
 
 /**
  * 会员模块 服务类
@@ -73,4 +73,37 @@ public interface UserService {
      * @return 用户信息
      */
     RestResp<UserInfoRespDto> getUserInfo(Long userId);
+
+    /**
+     * 加入书架
+     */
+    RestResp<Void> addBookshelf(Long userId, String bookId);
+
+    /**
+     * 移出书架
+     */
+    RestResp<Void> removeBookshelf(Long userId, String bookId);
+
+    /**
+     * 查询书架列表
+     */
+    RestResp<List<UserBookshelfRespDto>> listBookshelf(Long userId);
+
+    /**
+     *阅读进度查询
+     */
+    RestResp<Void> updateReadingProgress(Long userId, String bookId, Long contentId);
+
+    /** 关注作者 */
+    RestResp<Void> followAuthor(Long userId, Long authorId);
+
+    /** 取消关注 */
+    RestResp<Void> unfollowAuthor(Long userId, Long authorId);
+
+    /** 查询关注状态 */
+    RestResp<Integer> getFollowStatus(Long userId, Long authorId);
+
+    /** 查询关注列表 */
+    RestResp<List<UserFollowRespDto>> listFollows(Long userId);
+
 }
